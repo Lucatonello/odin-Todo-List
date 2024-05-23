@@ -1,0 +1,44 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    min-height: 100%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.container > div {
+    border: 1px solid black;
+}
+.sidebar {
+    grid-row-start: 1;
+    grid-row-end: 7;
+    overflow-y: auto; 
+}
+.navbar {
+    grid-row: 1 / 2;
+    grid-column: 2 / 7;
+}
+.body {
+    grid-row: 2 / 7;
+    grid-column: 2 / 7;
+}
+.sidebar > h1 {
+    margin-bottom: 100px;
+}
+.projects-sidebar {
+    display: flex;
+}
+.projects-sidebar > svg {
+    height: 30px;
+    width: 30px;
+    margin-bottom: 30px;
+}
+.projects-sidebar > h2 {
+    margin: 0px 0px 30px 0px;
+}
