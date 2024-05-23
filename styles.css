@@ -68,7 +68,7 @@ html, body {
     grid-column: 2 / 7;
 }
 .body > hr {
-    margin: 20px 10px 21px 10px;
+    margin: 20px 10px 8px 10px;
 }
 .body > h1, .body > div {
     margin-left: 20px;
@@ -84,11 +84,29 @@ html, body {
 .todo-container > p {
     margin: 0px 50px 0px 1000px;
 }
+.todo-container > svg {
+    height: 20px;
+    width: 20px;
+}
 .add {
     position: absolute;
     top: 750px;
     left: 1450px;
     height: 50px;
     width: 100px;
-    
+}
+#form {
+    border: 1px solid black;
+    padding: 20px 20px 20px 20px;
+    width: 419px;
+    margin-left: 100px;
+}
+#form > div, #form > label {
+    margin: 0px 0px 10px 10px;
+}
+.todo-container > div {
+    margin: 20px 0px 20px 10px;
+}
+.todo-container > svg {
+    margin: 20px 0px 20px 0px;
 }
