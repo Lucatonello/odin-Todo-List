@@ -1,3 +1,5 @@
+let projects = {};
+
 function showForm() {
     document.getElementById('form').style.display = 'block';
 }
@@ -6,15 +8,54 @@ function closeForm() {
     document.getElementById('form').style.display = 'none';
 }
 
+function newProjectForm() {
+    document.getElementById('project-form').style.display = 'block';
+    document.getElementById('close-add-project').style.display = 'block';
+}
+
+function closeProjectForm() {
+    document.getElementById('project-form').style.display = 'none';
+    document.getElementById('close-add-project').style.display = 'none';
+}
+
+function newProject() {
+    const projectName = document.getElementById('project-name').value;
+    if (projectName && !projects[projectName]) {
+        projects[projectName] = [];
+        updateProjectsSidebar();
+        console.log(projects);
+    } else {
+        console.log('Project name is empty or already exists');
+    }
+}
+
+function updateProjectsSidebar() {
+    const projectsSidebar = document.getElementById('projects-sidebar');
+    projectsSidebar.innerHTML = '';
+    for (const projectName in projects) {
+        const projectDiv = document.createElement('div');
+        projectDiv.className = 'project-item';
+        projectDiv.setAttribute('onclick', 'selectProject()')
+        projectDiv.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>circle</title><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg><h2>${projectName}</h2>`;
+        projectsSidebar.appendChild(projectDiv);
+    }
+}
+
 function handleTodo() {
+    const projectName = document.getElementById('form-project').value;
+    if (!projectName || !projects[projectName]) {
+        console.log('Invalid or non-existing project name');
+        return;
+    }
+
     const name = document.getElementById('form-name').value;
     const dueDate = document.getElementById('form-duedate').value;
     const description = document.getElementById('form-description').value;
 
     const newTodo = createTodo(name, dueDate, description);
-    displayTodo(newTodo);
+    projects[projectName].push(newTodo);
+    displayTodo(newTodo, projectName);
 }
-
 
 function createTodo(name, dueDate, description) {
     return {
@@ -22,24 +63,26 @@ function createTodo(name, dueDate, description) {
         dueDate: dueDate,
         description: description,
         markComplete: function() {
-            this.complete = true
+            this.complete = true;
         }
-    }
+    };
 }
 
-
-function displayTodo(todo) {
+function displayTodo(todo, projectName) {
+    const projectNamePlaceholder = document.getElementById('projectName-placeholder');
+    projectNamePlaceholder.innerHTML = ''; 
+    const addTitle = document.createElement('h2');
+    addTitle.textContent = projectName;
+    projectNamePlaceholder.appendChild(addTitle);
+    
     const newDiv = document.createElement('div');
     newDiv.className = 'todo-container';
-    // Generate a unique ID for the new div
     newDiv.id = 'todo-container-' + Date.now();
 
     const todoContent = document.createElement('div');
     todoContent.className = 'todo-content';
-    // Generate a unique ID for the todo content
     todoContent.id = 'todo-content-' + Date.now();
 
-    ///check logo
     const checkLogo = document.createElement('input');
     checkLogo.setAttribute('type', 'radio');
     checkLogo.className = 'check-logo';
@@ -54,69 +97,41 @@ function displayTodo(todo) {
     todoContent.appendChild(todoDuedate);
 
     newDiv.appendChild(todoContent);
-    
+
     const hr = document.createElement('hr');
     hr.id = 'todo-hr-' + Date.now();
 
-    // Create the SVG element for the chevron down
     const chevronDown = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     chevronDown.setAttribute('viewBox', '0 0 24 24');
     chevronDown.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    chevronDown.setAttribute('class', 'expandTodo');
-    const chevronTitle = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-    chevronTitle.textContent = 'chevron-down';
-    chevronDown.appendChild(chevronTitle);
-    const chevronPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    chevronPath.setAttribute('d', 'M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z');
-    chevronDown.appendChild(chevronPath);
-    chevronDown.addEventListener('click', () => expandTodo(chevronDown, todo));
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M7,10L12,15L17,10H7Z');
+    chevronDown.appendChild(path);
+    chevronDown.className = 'chevron-down';
     newDiv.appendChild(chevronDown);
 
-    // Create the SVG element for the trash can outline
-    const trashCan = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    trashCan.setAttribute('viewBox', '0 0 24 24');
-    trashCan.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    const title3 = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-    title3.textContent = 'trash-can-outline';
-    trashCan.appendChild(title3);
-    const path3 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path3.setAttribute('d', 'M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z');
-    trashCan.addEventListener('click', () => deleteTodo(newDiv.id, todoContent.id, hr.id));
-    trashCan.appendChild(path3);
+    const deleteTodoBtn = document.createElement('button');
+    deleteTodoBtn.textContent = 'delete';
+    deleteTodoBtn.className = 'delete-todo-btn';
+    newDiv.appendChild(deleteTodoBtn);
 
-    // Append the chevronDown and trashCan SVGs to the newDiv
-    newDiv.appendChild(chevronDown);
-    newDiv.appendChild(trashCan);
+    const todoDescription = document.createElement('div');
+    todoDescription.textContent = `${todo.description}`;
+    todoDescription.id = 'todo-description-' + Date.now();
+    todoDescription.style.display = 'none';
 
-    const todoList = document.getElementById('todo-list');
-    todoList.appendChild(newDiv);
-    todoList.appendChild(hr);
-}
+    document.getElementById('todo-list').appendChild(newDiv);
+    document.getElementById('todo-list').appendChild(todoDescription);
+    document.getElementById('todo-list').appendChild(hr);
 
+    chevronDown.addEventListener('click', () => {
+        const display = todoDescription.style.display === 'none' ? 'block' : 'none';
+        todoDescription.style.display = display;
+    });
 
-function expandTodo(icon, todo) {
-    const container = icon.closest('.todo-container');
-    container.style.height = '150px';
-
-    const todoDescription = document.createElement('p');
-    todoDescription.textContent = `Description: ${todo.description}`;
-    todoDescription.className = 'todo-description';
-    container.querySelector('.todo-content').appendChild(todoDescription);
-};
-function deleteTodo(containerId, divId, hrId) {
-    const container = document.getElementById(containerId);
-    const div = document.getElementById(divId);
-    const hr = document.getElementById(hrId);
-    
-    if (container) {
-        container.remove();
-    }
-
-    if (div) {
-        div.remove();
-    }
-
-    if (hr) {
+    deleteTodoBtn.addEventListener('click', () => {
+        newDiv.remove();
+        todoDescription.remove();
         hr.remove();
-    }
+    });
 }

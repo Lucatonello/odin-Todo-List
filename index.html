@@ -4,63 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>todo list</title>
+    <title>Todo List</title>
 </head>
 <body>
     <div class="container">
         <div class="sidebar">
             <h1>Projects</h1>
-            <div class="projects-sidebar1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>circle</title><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>
-                <h2>Project name</h2>
-            </div>
-            <div class="projects-sidebar2">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>circle</title><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>
-                <h2>Project name</h2>
-            </div>
-            <div class="projects-sidebar3">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>circle</title><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>
-                <h2>Project name</h2>
-            </div>
-            <div class="projects-sidebar4">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>circle</title><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>
-                <h2>Project name</h2>
-            </div>
-            <div class="projects-sidebar5">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>circle</title><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>
-                <h2>Project name</h2>
+            <div id="projects-sidebar">
             </div>
             <div class="blank"></div>
+            <button onclick="newProjectForm()" type="button" class="add-project">+ Add project</button>
+            <button onclick="closeProjectForm()" type="button" id="close-add-project" style="display: none">X</button>
+            <form id="project-form" style="display: none">
+                <div>
+                    <label for="name">Name of the project</label>
+                    <input type="text" id="project-name">
+                    <button onclick="newProject()" type="button">Add project</button>
+                </div>
+            </form>
             <hr>
             <div class="account">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>account</title><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" /></svg>
                 <h3>username</h3>
-            </div>  
+            </div>
         </div>
         <div class="navbar">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>chess-queen</title><path d="M18,3A2,2 0 0,1 20,5C20,5.81 19.5,6.5 18.83,6.82L17,13.15V18H7V13.15L5.17,6.82C4.5,6.5 4,5.81 4,5A2,2 0 0,1 6,3A2,2 0 0,1 8,5C8,5.5 7.82,5.95 7.5,6.3L10.3,9.35L10.83,5.62C10.33,5.26 10,4.67 10,4A2,2 0 0,1 12,2A2,2 0 0,1 14,4C14,4.67 13.67,5.26 13.17,5.62L13.7,9.35L16.47,6.29C16.18,5.94 16,5.5 16,5A2,2 0 0,1 18,3M5,20H19V22H5V20Z" /></svg>
             <h1>Todo-List</h1>
         </div>
         <div class="body">
-            <h1>Project name</h1>
+            <div id="projectName-placeholder"></div>
             <hr>
-            
             <div id="todo-list"></div>
-
             <button onclick="showForm()" type="button" class="add" id="showForm">+ Add todo</button>
             <button onclick="closeForm()" type="button" id="closeForm">X</button>
             <form id="form" style="display: none">
                 <div>
                     <label for="form-project">Select a project</label>
-                        <input type="text" name="project" id="form-project" placeholder="Project name">
+                    <input type="text" name="project" id="form-project" placeholder="Project name">
                 </div>
                 <div>
                     <label for="form-name">Name of the todo</label>
-                        <input type="text" id="form-name" placeholder="Todo name">
+                    <input type="text" id="form-name" placeholder="Todo name">
                 </div>
                 <div>
                     <label for="form-duedate">Due date</label>
-                        <input type="date" id="form-duedate" placeholder="Due date">
+                    <input type="date" id="form-duedate" placeholder="Due date">
                 </div>
                 <label for="description">Description</label>
                 <div>

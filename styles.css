@@ -24,17 +24,19 @@ html, body {
     margin-bottom: 100px;
     margin-left: 10px;
 }
-.projects-sidebar1, .projects-sidebar2, .projects-sidebar3, .projects-sidebar4, .projects-sidebar5 {
+
+.project-item {
     display: flex;
+    
 }
-.sidebar > div > svg {
+#projects-sidebar > .project-item > svg {
     height: 30px;
     width: 30px;
     margin-bottom: 30px;
     margin-right: 10px;
     margin-left: 10px;
 }
-.sidebar > div > h2 {
+#projects-sidebar > .project-item > h2 {
     margin: 0px 0px 30px 0px;
 }
 .blank {
