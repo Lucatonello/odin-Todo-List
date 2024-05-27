@@ -2,8 +2,10 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    background: #2B7A78;
 }
 .container {
+    
     min-height: 100%;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -12,13 +14,11 @@ html, body {
     padding-right: 4px;
 }
 
-.container > div {
-    border: 1px solid black;
-}
 .sidebar {
     grid-row-start: 1;
     grid-row-end: 5;
     overflow-y: auto; 
+    background: #3AAFA9;
 }
 .sidebar > h1 {
     margin-bottom: 100px;
@@ -28,6 +28,12 @@ html, body {
 .project-item {
     display: flex;
     
+}
+
+#close-add-project {
+    margin-left: 20px;
+    border: 0px;
+    border-radius: 5px;
 }
 #projects-sidebar > .project-item > svg {
     height: 30px;
@@ -52,10 +58,13 @@ html, body {
     padding-top: 5px;
 }
 .navbar {
+    background: #2B7A78;
     grid-row: 1 / 2;
     grid-column: 2 / 7;
     display: flex;
     justify-content: center;
+    height: 206px;
+    border-bottom: 2px solid black;
 }
 .navbar > svg {
     height: 150px;
@@ -66,19 +75,27 @@ html, body {
     margin-right: 20px;
 }   
 .body {
+    background: #17252A;
     grid-row: 2 / 5;
     grid-column: 2 / 7;
+    overflow-y: auto; /* Add overflow-y to make the container scrollable */
+    max-height: calc(100vh - 250px); /* Set a maximum height */
+    padding-right: 20px; /* Add padding for scrollbar */
+    box-sizing: border-box; /* Include padding in the height calculation */
 }
 .body > hr {
-    margin: 20px 10px 8px 10px;
+    margin: 20px 0px 8px 10px;
 }
 .body > h1, .body > div {
     margin-left: 20px;
 }
+div {
+    color: white;
+}
 .todo-container {
     display: flex;
     align-items: center;
-
+    color: white;
 }
 .todo-content {
     flex-grow: 1;
@@ -104,27 +121,52 @@ html, body {
     height: 20px;
     width: 20px;
 }
+.projectForm {
+    position: absolute;
+    top: 800px;
+    left: 30%;
+}
+.add-project {
+    position: absolute;
+    top: 790px;
+    left: 66%;
+    height: 40px;
+    width: 100px;
+    border: 0px;
+}
+#close-add-project {
+    position: absolute;
+    top: 790px;
+    left: 72%;
+    height: 40px;
+    width: 60px;
+    border: 0px;
+}
 .add {
     position: absolute;
-    top: 750px;
-    left: 1400px;
-    height: 50px;
+    top: 790px;
+    left: 80%;
+    height: 40px;
     width: 100px;
     border: 0px;
 }
 #closeForm {
     position: absolute;
-    top: 750px;
-    left: 1480px;
-    height: 50px;
+    top: 790px;
+    left: 85%;
+    height: 40px;
     width: 60px;
     border: 0px;
+}
+button {
+    background: whitesmoke;
 }
 #form {
     border: 1px solid black;
     padding: 20px 20px 20px 20px;
     width: 419px;
-    margin-left: 100px;
+    margin-left: 810px;
+    background: #3AAFA9;
 }
 #form > div, #form > label {
     margin: 0px 0px 10px 10px;

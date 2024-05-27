@@ -2,10 +2,12 @@ let projects = {};
 
 function showForm() {
     document.getElementById('form').style.display = 'block';
+    document.getElementById('closeForm').style.display = 'block';
 }
 
 function closeForm() {
     document.getElementById('form').style.display = 'none';
+    document.getElementById('closeForm').style.display = 'none';
 }
 
 function newProjectForm() {
@@ -23,6 +25,7 @@ function newProject() {
     if (projectName && !projects[projectName]) {
         projects[projectName] = [];
         updateProjectsSidebar();
+        saveProjectsToLocalStorage();
         console.log(projects);
     } else {
         console.log('Project name is empty or already exists');
@@ -72,6 +75,7 @@ function handleTodo() {
     const newTodo = createTodo(name, dueDate, description);
     projects[projectName].push(newTodo);
     displayTodo(newTodo, projectName);
+    saveProjectsToLocalStorage();
 }
 
 function createTodo(name, dueDate, description) {
@@ -79,9 +83,7 @@ function createTodo(name, dueDate, description) {
         name: name,
         dueDate: dueDate,
         description: description,
-        markComplete: function() {
-            this.complete = true;
-        }
+        complete: false
     };
 }
 
@@ -97,6 +99,7 @@ function displayTodo(todo, projectName) {
     const checkLogo = document.createElement('input');
     checkLogo.setAttribute('type', 'radio');
     checkLogo.className = 'check-logo';
+    checkLogo.checked = todo.complete;
     newDiv.appendChild(checkLogo);
 
     const todoName = document.createElement('div');
@@ -144,11 +147,34 @@ function displayTodo(todo, projectName) {
         newDiv.remove();
         todoDescription.remove();
         hr.remove();
-        
-        const todos = projects[projectName];
-        const index = todos.findIndex(todoItem => todoItem === todo);
-        if (index !== -1) {
-            todos.splice(index, 1);
+        // Remove the todo from the project list
+        const projectTodos = projects[projectName];
+        const todoIndex = projectTodos.indexOf(todo);
+        if (todoIndex > -1) {
+            projectTodos.splice(todoIndex, 1);
+            saveProjectsToLocalStorage();
         }
     });
+    checkLogo.addEventListener('click', () => {
+        todo.complete = checkLogo.checked; // Update the complete property
+        saveProjectsToLocalStorage();
+    });
 }
+
+// Save projects to localStorage
+function saveProjectsToLocalStorage() {
+    localStorage.setItem('projects', JSON.stringify(projects));
+}
+
+// Load projects from localStorage
+function loadProjectsFromLocalStorage() {
+    const savedProjects = localStorage.getItem('projects');
+    if (savedProjects) {
+        projects = JSON.parse(savedProjects);
+        updateProjectsSidebar();
+    }
+}
+
+window.onload = function() {
+    loadProjectsFromLocalStorage();
+};
