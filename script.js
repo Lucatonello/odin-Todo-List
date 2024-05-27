@@ -29,13 +29,30 @@ function newProject() {
     }
 }
 
+function selectProject(projectName) {
+    const todoList = document.getElementById('todo-list');
+    todoList.innerHTML = '';
+
+    const todos = projects[projectName];
+    if (todos) {
+        todos.forEach(todo => {
+            displayTodo(todo, projectName);
+        });
+    }
+    const projectNamePlaceholder = document.getElementById('projectName-placeholder');
+    projectNamePlaceholder.innerHTML = ''; 
+    const addTitle = document.createElement('h2');
+    addTitle.textContent = projectName;
+    projectNamePlaceholder.appendChild(addTitle);
+}
+
 function updateProjectsSidebar() {
     const projectsSidebar = document.getElementById('projects-sidebar');
     projectsSidebar.innerHTML = '';
     for (const projectName in projects) {
         const projectDiv = document.createElement('div');
         projectDiv.className = 'project-item';
-        projectDiv.setAttribute('onclick', 'selectProject()')
+        projectDiv.setAttribute('onclick', `selectProject('${projectName}')`);
         projectDiv.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>circle</title><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg><h2>${projectName}</h2>`;
         projectsSidebar.appendChild(projectDiv);
     }
@@ -69,12 +86,6 @@ function createTodo(name, dueDate, description) {
 }
 
 function displayTodo(todo, projectName) {
-    const projectNamePlaceholder = document.getElementById('projectName-placeholder');
-    projectNamePlaceholder.innerHTML = ''; 
-    const addTitle = document.createElement('h2');
-    addTitle.textContent = projectName;
-    projectNamePlaceholder.appendChild(addTitle);
-    
     const newDiv = document.createElement('div');
     newDiv.className = 'todo-container';
     newDiv.id = 'todo-container-' + Date.now();
@@ -133,5 +144,11 @@ function displayTodo(todo, projectName) {
         newDiv.remove();
         todoDescription.remove();
         hr.remove();
+        
+        const todos = projects[projectName];
+        const index = todos.findIndex(todoItem => todoItem === todo);
+        if (index !== -1) {
+            todos.splice(index, 1);
+        }
     });
 }
